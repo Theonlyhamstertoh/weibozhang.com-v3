@@ -4,6 +4,7 @@ import {
   Geist_Mono,
   Bricolage_Grotesque,
   Inter,
+  Caveat,
 } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,10 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -37,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
-        className={`${geistSans.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-[#0B0B0B] antialiased`}
+        className={`${geistSans.variable} ${caveat.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-[#0B0B0B] antialiased`}
       >
         {children}
       </body>
