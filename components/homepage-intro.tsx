@@ -8,8 +8,18 @@ import {
 } from "@mynaui/icons-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { AnimatedPlaceholderInput } from "./animated-placeholder-input";
 
 export const Intro = () => {
+  const [query, setQuery] = useState("");
+  const router = useRouter();
+  const sendQuery = (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    router.push(`/ai?query=${query}`);
+  };
+
   return (
     <div className="my-40  ">
       <div className="flex mb-10  gap-4 max-w-2xl w-fit items-start">
@@ -27,17 +37,18 @@ export const Intro = () => {
           </p>
         </div>
       </div>
-      <div className="rounded-2xl bg-neutral-900 border border-neutral-800 py-3 px-4 w-full  flex justify-between items-center">
-        <input
-          placeholder="Chat with me like ChatGPT"
-          type="text"
-          className="placeholder:text-neutral-600 text-neutral-50 font-semibold outline-0 border-0 w-full p-0"
-        />
-
-        <button className="bg-sky-900 text-nowrap text-sky-400 font-semibold py-1 px-2 rounded-2xl">
+      <form
+        onSubmit={sendQuery}
+        className="rounded-2xl hover:outline-1 bg-neutral-900 border border-neutral-800 py-3 px-4 w-full  flex justify-between items-center"
+      >
+        <AnimatedPlaceholderInput query={query} setQuery={setQuery} />
+        <Button
+          type="submit"
+          className="hover:cursor-pointer text-nowrap text-sky-400 font-semibold py-1 px-2 rounded-2xl"
+        >
           Ask Me
-        </button>
-      </div>
+        </Button>
+      </form>
 
       <div className="py-2 flex flex-wrap gap-1 justify-center">
         <Link

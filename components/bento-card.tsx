@@ -1,3 +1,4 @@
+"use client";
 import {
   Card,
   CardContent,
@@ -21,9 +22,10 @@ import {
   PenSolid,
   SmileSolid,
 } from "@mynaui/icons-react";
-import { BriefcaseIcon } from "./icons";
-import { constants } from "node:fs/promises";
 import Link from "next/link";
+import { constants } from "node:fs/promises";
+import { BriefcaseIcon } from "./icons";
+import { buttonVariants } from "./ui/button";
 
 interface InfoEntry {
   title: string;
@@ -175,11 +177,18 @@ export const ExperienceCard = () => (
       ))}
     </CardContent>
     <CardFooter>
-      <button className="bg-neutral-800 px-2 py-2 w-full flex items-center justify-center gap-1 rounded-lg">
-        <FileTextSolid className="size-5 text-neutral-500" />
+      <Link
+        href="/weibo-zhang-resume.pdf"
+        target="_blank"
+        className={buttonVariants({
+          variant: "secondary",
+          size: "lg",
+          className: "w-full bg-neutral-950",
+        })}
+      >
         Download Resume{" "}
         <DownloadSolid className="text-neutral-500 size-5" />{" "}
-      </button>
+      </Link>
     </CardFooter>
   </Card>
 );
