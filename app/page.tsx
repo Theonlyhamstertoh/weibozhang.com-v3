@@ -6,44 +6,47 @@ import {
   RecentBlogsCard,
 } from "@/components/bento-card";
 import { GitHubContributionGraph } from "@/components/github-stats";
+import { BentoGrid } from "@/components/homepage-bento-grid";
+import { Intro } from "@/components/homepage-intro";
+import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { Navbar } from "@/components/navbar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   ArrowRightSolid,
   ChevronRight,
   ChevronRightSolid,
+  DownloadSolid,
+  FileSolid,
+  FileTextSolid,
+  Flower2Solid,
+  FlowerSolid,
+  LinkedinSolid,
+  MailOpenSolid,
 } from "@mynaui/icons-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans p-6 ">
-      <div className="grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
-        {/* Col 1: Photo + Recent Blogs */}
-        <div className="flex flex-col gap-4">
-          <div className="bg-sky-950 px-4 py-2 text-5xl font-extrabold tracking-tighter rounded-2xl text-sky-500 text-center">
-            This is me
-          </div>
-          <Image
-            className="rounded-2xl"
-            alt="Weibo's Photo"
-            src="/weibo.jpg"
-            width="600"
-            height="800"
-          />
-          {/* Placeholder for photo/profile card */}
-          <RecentBlogsCard className="flex-1" />
-        </div>
-        {/* Col 2: Education + Experience */}
-        <div className="flex flex-col gap-4">
-          <EducationCard />
-          <ExperienceCard />
-          <AIChatCard className="flex-1" />
-        </div>
-        {/* Col 3: About Me + GitHub — each full width on sm, shared col on md+ */}
-        <div className="contents md:flex md:flex-col md:gap-4 md:min-w-0">
-          <AboutMeCard className="sm:col-span-2" />
-          <GitHubContributionGraph className="sm:col-span-2 md:flex-1 min-w-0" />
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center font-sans p-6 ">
+      <Navbar />
+      <Intro />
+
+      <BentoGrid />
+      <span className="text-neutral-700 mt-16">
+        Built by
+        <strong className="text-neutral-500"> Weibo Zhang</strong>
+      </span>
+
+      <div className="fixed bottom-4 right-4 flex items-center gap-1.5 text-neutral-700 has-[a:hover]:[&>span]:opacity-100">
+        <span className="whitespace-nowrap rounded-lg bg-neutral-800 px-3 py-1.5 text-sm text-neutral-400 opacity-0 transition-opacity duration-200">
+          Design inspired by
+          <span className="text-amber-400"> Brian Prouty</span>
+        </span>
+        <Link href="https://www.brianprouty.com/" target="_blank">
+          <Flower2Solid className="size-6 cursor-pointer text-neutral-700 hover:text-amber-400" />
+        </Link>
       </div>
     </div>
   );
