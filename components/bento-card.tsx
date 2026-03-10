@@ -5,7 +5,12 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Briefcase, Briefcase01FreeIcons } from "@hugeicons/core-free-icons";
+import { cn } from "@/lib/utils";
+import {
+  Briefcase,
+  Briefcase01FreeIcons,
+  HeartRemoveFreeIcons,
+} from "@hugeicons/core-free-icons";
 import {
   BriefcaseBusinessSolid,
   ChevronRight,
@@ -18,11 +23,13 @@ import {
 } from "@mynaui/icons-react";
 import { BriefcaseIcon } from "./icons";
 import { constants } from "node:fs/promises";
+import Link from "next/link";
 
 interface InfoEntry {
   title: string;
   description: string;
   dateRange: string;
+  href?: string;
 }
 
 const educationData: InfoEntry[] = [
@@ -73,37 +80,75 @@ const data = {
     {
       id: 1,
       title: "Back to creating",
+      href: "/blogs/back-to-creating",
       createdAt: "Jun 30",
     },
     {
       id: 2,
-      title: "Back to creating",
+      title: "A humbling experience with my car broken down",
+      href: "/blogs/back-to-creating",
       createdAt: "Jun 30",
     },
     {
       id: 3,
-      title: "Back to creating",
+      title: "Postgres Snippets",
+      href: "/blogs/back-to-creating",
+      createdAt: "Jun 30",
+    },
+    {
+      id: 4,
+      title: "Postgres Snippets",
+      href: "/blogs/back-to-creating",
+      createdAt: "Jun 30",
+    },
+    {
+      id: 5,
+      title: "Postgres Snippets",
+      href: "/blogs/back-to-creating",
       createdAt: "Jun 30",
     },
   ],
 };
 
-function InfoItem({ title, description, dateRange }: InfoEntry) {
-  return (
-    <div className="space-y-1">
-      <h3 className="text-xl font-semibold tracking-tight text-card-foreground">
+function InfoItem({ title, description, dateRange, href }: InfoEntry) {
+  const content = (
+    <>
+      <h3
+        className={cn(
+          "text-xl text-neutral-200 font-semibold tracking-tight flex gap-3 items-start",
+          href && "hover:underline",
+        )}
+      >
         {title}
+        {href && (
+          <ChevronRight className="stroke-2 mt-0.5 shrink-0 text-neutral-600" />
+        )}
       </h3>
       <p className="text-sm text-neutral-500 font-medium">{description}</p>
       <p className="text-sm text-neutral-500">{dateRange}</p>
-    </div>
+    </>
   );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="space-y-1 block"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <div className="space-y-1">{content}</div>;
 }
 
 export const EducationCard = () => (
-  <Card className="border-none bg-neutral-950 text-white">
+  <Card className="border-none  text-white">
     <CardHeader>
-      <CardTitle className="text-emerald-500">
+      <CardTitle className="text-green-500  text-lg font-extrabold tracking-tight">
         <GraduationCapSolid className="size-6" />
         Education
       </CardTitle>
@@ -117,11 +162,11 @@ export const EducationCard = () => (
 );
 
 export const ExperienceCard = () => (
-  <Card className="border-none bg-neutral-950 text-white">
+  <Card className="border-none  text-white">
     <CardHeader>
-      <CardTitle className="text-blue-500">
+      <CardTitle className="text-blue-500 text-lg font-extrabold tracking-tight">
         <BriefcaseIcon className="size-6" />
-        Education
+        Experience
       </CardTitle>
     </CardHeader>
     <CardContent className="space-y-6">
@@ -138,43 +183,54 @@ export const ExperienceCard = () => (
     </CardFooter>
   </Card>
 );
-export const AboutMeCard = () => (
-  <Card className="border-none bg-neutral-950 text-white">
+export const AboutMeCard = ({ className }: { className?: string }) => (
+  <Card className={cn("border-none text-white", className)}>
     <CardHeader>
-      <CardTitle className="text-amber-500">
+      <CardTitle className="text-amber-500 tracking-tight font-extrabold text-lg">
         <FunnySolid className="size-6" />
         About Me
       </CardTitle>
     </CardHeader>
-    <CardContent className="text-base whitespace-pre-line">
+    <CardContent className="text-lg whitespace-pre-line">
       {data.aboutMe}
     </CardContent>
   </Card>
 );
-export const RecentBlogsCard = () => (
-  <Card className="border-none bg-neutral-950 text-white">
+export const RecentBlogsCard = ({ className }: { className?: string }) => (
+  <Card className={cn("border-none text-white", className)}>
     <CardHeader>
-      <CardTitle className="text-neutral-200">
+      <CardTitle className="text-neutral-200 tracking-tight font-extrabold text-lg">
         <PenSolid className="size-6" />
         Recent Blogs
         <p className="text-neutral-600">10 days ago</p>
       </CardTitle>
     </CardHeader>
-    <CardContent className="text-base whitespace-pre-line">
-      {data.blogs.map(({ id, title, createdAt }) => (
-        <InfoItem key={id} title={title} dateRange={createdAt} description="" />
+    <CardContent className="text-base whitespace-pre-line space-y-6">
+      {data.blogs.map(({ id, title, createdAt, href }) => (
+        <InfoItem
+          key={id}
+          title={title}
+          href={href}
+          dateRange={createdAt}
+          description=""
+        />
       ))}
     </CardContent>
   </Card>
 );
 
-export const AIChatCard = () => (
-  <Card className="bg-neutral-800 ">
-    <CardContent className="font-extrabold tracking-tight text-3xl grid place-content-center gap-4 p-4 text-center">
-      p.s. I built a AI me if you want to ask a quick question
-      <button className="bg-white mx-auto text-neutral-950 w-fit gap-3  px-2 py-1 rounded-lg text-lg flex items-center justify-between ">
+export const AIChatCard = ({ className }: { className?: string }) => (
+  <Card
+    className={cn("bg-neutral-800 flex justify-center items-center", className)}
+  >
+    <CardContent className="font-extrabold  tracking-tight text-3xl flex flex-col justify-center items-center text-balance gap-8 p-4 text-center ">
+      I built an AI version of me ― feel free to ask me anything here
+      <Link
+        href="/ai"
+        className="bg-white mx-auto text-neutral-950 w-fit gap-3  px-2 py-1 rounded-lg text-lg flex items-center justify-between "
+      >
         Chat with me <ChevronRight className="stroke-2" />
-      </button>
+      </Link>
     </CardContent>
   </Card>
 );
