@@ -39,7 +39,7 @@ export default function Home() {
         <strong className="text-neutral-500"> Weibo Zhang</strong>
       </span>
 
-      <div className="fixed bottom-4 right-4 flex items-center gap-1.5 text-neutral-700 has-[a:hover]:[&>span]:opacity-100">
+      <div className="mt-16 self-end flex items-center gap-1.5 text-neutral-700 has-[a:hover]:[&>span]:opacity-100">
         <span className="whitespace-nowrap rounded-lg bg-neutral-800 px-3 py-1.5 text-sm text-neutral-400 opacity-0 transition-opacity duration-200">
           Design inspired by
           <span className="text-amber-400"> Brian Prouty</span>
