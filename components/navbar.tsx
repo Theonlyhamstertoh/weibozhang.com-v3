@@ -6,9 +6,9 @@ import { useState } from "react";
 const links = [
   { href: "/work", label: "Work" },
   { href: "/ai", label: "AI" },
-  { href: "/blogs", label: "Blogs" },
+  { href: "/blog", label: "Blogs" },
   { href: "/now", label: "Now" },
-  { href: "/contact", label: "Contact" },
+  { href: "/weibo-zhang-resume.pdf", label: "Resume" },
 ];
 
 export function Navbar() {

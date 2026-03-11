@@ -18,7 +18,7 @@ export default async function Page({
   );
 
   return (
-    <article className="prose prose-invert mx-auto max-w-3xl px-6 py-10">
+    <article className="">
       <Link
         href="/blog"
         className=" flex items-center text-neutral-600  underline-offset-3"

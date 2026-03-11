@@ -45,12 +45,15 @@ export const AIChat = ({ query }: { query?: string }) => {
   });
   const [input, setInput] = useState("");
 
+  // guard to prevent infinite loop calling
+  const hasSentQuery = useRef(false);
   useEffect(() => {
-    if (query) {
-      console.log("sending message");
-      // sendMessage({ text: query });
+    if (query && !hasSentQuery.current) {
+      hasSentQuery.current = true;
+      sendMessage({ text: query });
     }
-  }, [query, sendMessage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="flex flex-col flex-1 max-w-4xl mx-auto w-full px-6 pt-10">

@@ -1,5 +1,5 @@
 "use client";
-import { GithubIcon, LinkedinIcon } from "@/components/icons";
+import { CurlyArrow, GithubIcon, LinkedinIcon } from "@/components/icons";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DownloadSolid,
@@ -21,7 +21,7 @@ export const Intro = () => {
   };
 
   return (
-    <div className="my-40  ">
+    <div className="mt-30  ">
       <div className="flex mb-10  gap-4 max-w-2xl w-fit items-start">
         <Image
           src="/avatar.png"
@@ -84,6 +84,8 @@ export const Intro = () => {
           Download Resume <DownloadSolid className="size-5" />
         </Link>
       </div>
+
+      <CurlyArrow className="mx-auto my-20" />
     </div>
   );
 };
