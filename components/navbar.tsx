@@ -16,7 +16,9 @@ export function Navbar() {
 
   return (
     <header className="flex border-b border-b-neutral-900 flex-wrap items-center justify-between w-full p-3">
-      <div className="font-weibo text-2xl">Weibo</div>
+      <Link href="/" className="font-weibo text-2xl">
+        Weibo
+      </Link>
 
       {/* Desktop nav */}
       <nav className="hidden gap-3 font-medium text-neutral-400  md:flex">

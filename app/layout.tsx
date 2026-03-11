@@ -1,13 +1,15 @@
+import { Footer } from "@/components/footer";
+import { Navbar } from "@/components/navbar";
+import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import {
+  Bricolage_Grotesque,
+  Caveat,
   Geist,
   Geist_Mono,
-  Bricolage_Grotesque,
   Inter,
-  Caveat,
 } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -42,9 +44,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", inter.variable)}>
       <body
-        className={`${geistSans.variable} ${caveat.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-[#0B0B0B] antialiased`}
+        className={`${geistSans.variable} ${caveat.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-[#0B0B0B] antialiased ${bricolageGrotesque.className}`}
       >
-        {children}
+        <div className="flex min-h-screen flex-col">
+          <Navbar />
+          <main className="flex-1 flex flex-col">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );
