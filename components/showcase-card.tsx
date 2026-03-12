@@ -38,7 +38,7 @@ export function ShowcaseCard({
     >
       {/* Badge + Title row */}
       {badge ? (
-        <div className="flex items-center gap-2 mb-1">
+        <div className="flex md:flex-row flex-col items-start md:items-center gap-2 mb-1">
           <span
             className={cn(
               "bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-md",

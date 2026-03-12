@@ -22,7 +22,7 @@ export default function BlogPage() {
       <div className="flex flex-col gap-8">
         {years.map((year) => (
           <div key={year} className="flex flex-col gap-4">
-            <h2 className="bg-primary text-primary-foreground p-1 rounded-lg font-extrabold text-3xl w-fit">
+            <h2 className="bg-sky-100 text-sky-400 dark:bg-sky-950 dark:bg-sky-600 p-1 rounded-lg font-extrabold text-3xl w-fit">
               {year}
             </h2>
             <div className="flex flex-wrap gap-4">
