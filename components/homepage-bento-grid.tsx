@@ -21,7 +21,7 @@ export const BentoGrid = () => {
     <div className="grid w-full max-w-6xl grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3">
       {/* Col 1: Photo + Recent Blogs */}
       <div className="flex flex-col gap-4">
-        <div className="bg-sky-100 dark:bg-primary px-4 py-2 text-5xl font-extrabold tracking-tighter rounded-2xl text-sky-600 dark:text-primary-foreground text-center">
+        <div className="bg-sky-100 dark:bg-sky-950 px-4 py-2 text-5xl font-extrabold tracking-tighter rounded-2xl text-sky-600 dark:text-sky-600 text-center">
           This is me
         </div>
         <Image
