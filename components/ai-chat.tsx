@@ -8,21 +8,21 @@ import {
   Heart,
   Lightning,
   Luggage,
+  PenSolid,
   Rocket,
   Star,
   Target,
   User,
   Users,
   UsersGroup,
-  PenSolid,
 } from "@mynaui/icons-react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { Button } from "./ui/button";
 import { ShowcaseCard } from "./showcase-card";
+import { Button } from "./ui/button";
 
 const templateQuestions = [
   { label: "Background", icon: User },
@@ -40,20 +40,22 @@ const templateQuestions = [
   { label: "Biggest Impact I've Made", icon: Lightning },
 ];
 
-function parseFollowups(text: string): { content: string; followups: string[] } {
-  const marker = "<<<FOLLOWUPS>>>";
-  const idx = text.indexOf(marker);
-  if (idx === -1) return { content: text, followups: [] };
+const FOLLOWUP_MARKER = "<<<FOLLOWUPS>>>";
+
+function parseFollowups(text: string) {
+  const idx = text.indexOf(FOLLOWUP_MARKER);
+  if (idx === -1) return { content: text, followups: [] as string[] };
   const content = text.slice(0, idx).trim();
-  const followupBlock = text.slice(idx + marker.length).trim();
-  const followups = followupBlock
+  const followups = text
+    .slice(idx + FOLLOWUP_MARKER.length)
+    .trim()
     .split("\n")
     .map((l) => l.replace(/^-\s*/, "").trim())
     .filter(Boolean);
   return { content, followups };
 }
 
-// ─── Tool Status Labels ───
+// ─── Shared Components ───
 
 const toolLabels: Record<string, string> = {
   searchBlogs: "Searching through my blogs...",
@@ -62,26 +64,30 @@ const toolLabels: Record<string, string> = {
   readWorkPage: "Pulling up project details...",
 };
 
-// ─── Tool Thinking Status ───
+function BouncingDots() {
+  return (
+    <div className="flex gap-1">
+      {[0, 1, 2].map((i) => (
+        <motion.div
+          key={i}
+          className="size-2 rounded-full bg-muted-foreground/60"
+          animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
+          transition={{
+            duration: 1,
+            repeat: Infinity,
+            delay: i * 0.2,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 
 function ChatThinkingStatus({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-3 pl-[52px] py-2">
-      <div className="flex gap-1">
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="size-2 rounded-full bg-muted-foreground/60"
-            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              delay: i * 0.2,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      <BouncingDots />
       <span className="text-sm text-muted-foreground italic">{label}</span>
     </div>
   );
@@ -97,7 +103,13 @@ interface ToolResultItem {
   content?: string;
 }
 
-function ToolResultCards({ toolName, result }: { toolName: string; result: string }) {
+function ToolResultCards({
+  toolName,
+  result,
+}: {
+  toolName: string;
+  result: string;
+}) {
   if (
     typeof result === "string" &&
     (result.startsWith("No ") || result.includes("not found"))
@@ -119,10 +131,8 @@ function ToolResultCards({ toolName, result }: { toolName: string; result: strin
 
   if (items.length === 0) return null;
 
-  const isWork = toolName === "searchWork" || toolName === "readWorkPage";
   const isBlog = toolName === "searchBlogs" || toolName === "readBlogPost";
 
-  // Blog results: render as a simple list with icons
   if (isBlog) {
     return (
       <div className="pl-[52px] flex flex-col gap-2 py-2">
@@ -156,7 +166,6 @@ function ToolResultCards({ toolName, result }: { toolName: string; result: strin
     );
   }
 
-  // Work results: render as showcase cards
   return (
     <div className="pl-[52px] grid grid-cols-1 sm:grid-cols-2 gap-3 py-2">
       {items.map((item, i) => (
@@ -173,14 +182,143 @@ function ToolResultCards({ toolName, result }: { toolName: string; result: strin
   );
 }
 
+// ─── Message Parts Renderer ───
+
+function AssistantParts({
+  message,
+  isLastAssistant,
+  sendMessage,
+}: {
+  message: UIMessage;
+  isLastAssistant: boolean;
+  sendMessage: UseChatHelpers<UIMessage>["sendMessage"];
+}) {
+  const fullText = message.parts
+    .filter((p) => p.type === "text")
+    .map((p) => (p as { type: "text"; text: string }).text)
+    .join("");
+  const { followups } = parseFollowups(fullText);
+
+  const seenTitles = new Set<string>();
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div className="flex items-center gap-3">
+        <Image
+          src="/avatar.png"
+          width={40}
+          height={40}
+          alt="Weibo Avatar"
+          className="rounded-full"
+        />
+        <span className="text-muted-foreground font-semibold text-lg">
+          Weibo
+        </span>
+      </div>
+
+      {message.parts.map((part, index) => {
+        const key = `message-${message.id}-part-${index}-${part.type}`;
+
+        if (part.type === "text") {
+          const { content } = parseFollowups(
+            (part as { type: "text"; text: string }).text,
+          );
+          if (!content) return null;
+          return (
+            <div
+              key={key}
+              className="text-foreground/80 leading-relaxed space-y-4 pl-[52px]"
+            >
+              <ReactMarkdown>{content}</ReactMarkdown>
+            </div>
+          );
+        }
+
+        if (part.type.startsWith("tool-")) {
+          const toolName = part.type.replace("tool-", "");
+          const toolPart = part as any;
+
+          switch (toolPart.state) {
+            case "input-streaming":
+            case "input-available":
+              return (
+                <ChatThinkingStatus
+                  key={key}
+                  label={toolLabels[toolName] || "Using a tool..."}
+                />
+              );
+            case "output-available": {
+              let output = toolPart.output;
+              try {
+                const parsed = JSON.parse(output);
+                if (Array.isArray(parsed)) {
+                  const deduped = parsed.filter((item: any) => {
+                    const id = item.title || item.slug || "";
+                    if (seenTitles.has(id)) return false;
+                    seenTitles.add(id);
+                    return true;
+                  });
+                  if (deduped.length === 0) return null;
+                  output = JSON.stringify(deduped);
+                }
+              } catch {}
+              return (
+                <ToolResultCards
+                  key={key}
+                  toolName={toolName}
+                  result={output}
+                />
+              );
+            }
+            default:
+              return null;
+          }
+        }
+
+        return null;
+      })}
+
+      {isLastAssistant && followups.length > 0 && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.2 }}
+          className="flex flex-wrap gap-2 pl-[52px] pt-2"
+        >
+          {followups.map((q) => (
+            <Button
+              key={q}
+              variant="secondary"
+              size="sm"
+              onClick={() => sendMessage({ text: q })}
+            >
+              {q}
+            </Button>
+          ))}
+        </motion.div>
+      )}
+    </div>
+  );
+}
+
 // ─── Main Chat ───
 
 const chatTransport = new DefaultChatTransport({ api: "/api/chat" });
-export const AIChat = ({ query }: { query?: string }) => {
+export const AIChat = ({ id, query }: { id: string; query?: string }) => {
+  const [error, setError] = useState<string | null>(null);
   const { messages, sendMessage, status } = useChat({
     transport: chatTransport,
+    id,
+    onError: (err) => {
+      if (err.message?.includes("429") || err.message?.includes("Too many")) {
+        setError("Too many requests — try again in a minute :)");
+      } else {
+        setError("Something went wrong. Try again!");
+      }
+    },
   });
   const [input, setInput] = useState("");
+  const isDisabled = status !== "ready" && status !== "error";
 
   const hasSentQuery = useRef(false);
   useEffect(() => {
@@ -200,11 +338,6 @@ export const AIChat = ({ query }: { query?: string }) => {
 
       <div className="flex flex-col gap-6 flex-1">
         {messages.map((message, mi) => {
-          const isLastAssistant =
-            message.role === "assistant" &&
-            mi === messages.length - 1 &&
-            status === "ready";
-
           if (message.role === "user") {
             return (
               <div key={message.id} className="flex justify-end">
@@ -219,116 +352,13 @@ export const AIChat = ({ query }: { query?: string }) => {
             );
           }
 
-          const fullText = message.parts
-            .filter((p) => p.type === "text")
-            .map((p) => (p as { type: "text"; text: string }).text)
-            .join("");
-          const { content, followups } = parseFollowups(fullText);
-
           return (
-            <div key={message.id} className="flex flex-col gap-2">
-              <div className="flex items-center gap-3">
-                <Image
-                  src="/avatar.png"
-                  width={40}
-                  height={40}
-                  alt="Weibo Avatar"
-                  className="rounded-full"
-                />
-                <span className="text-muted-foreground font-semibold text-lg">
-                  Weibo
-                </span>
-              </div>
-
-              {/* Render each part inline, deduplicating tool results */}
-              {(() => {
-                const seenTitles = new Set<string>();
-                return message.parts.map((part, index) => {
-                  const key = `message-${message.id}-part-${index}-${part.type}`;
-
-                  if (part.type === "text") {
-                    const { content: textContent } = parseFollowups(
-                      (part as { type: "text"; text: string }).text,
-                    );
-                    if (!textContent) return null;
-                    return (
-                      <div
-                        key={key}
-                        className="text-foreground/80 leading-relaxed space-y-4 pl-[52px]"
-                      >
-                        <ReactMarkdown>{textContent}</ReactMarkdown>
-                      </div>
-                    );
-                  }
-
-                  // Tool parts: type is "tool-searchBlogs", "tool-searchWork", etc.
-                  if (part.type.startsWith("tool-")) {
-                    const toolName = part.type.replace("tool-", "");
-                    const toolPart = part as any;
-
-                    switch (toolPart.state) {
-                      case "input-streaming":
-                      case "input-available":
-                        return (
-                          <ChatThinkingStatus
-                            key={key}
-                            label={toolLabels[toolName] || "Using a tool..."}
-                          />
-                        );
-                      case "output-available": {
-                        // Deduplicate results across multiple tool calls
-                        let output = toolPart.output;
-                        try {
-                          const parsed = JSON.parse(output);
-                          if (Array.isArray(parsed)) {
-                            const deduped = parsed.filter((item: any) => {
-                              const id = item.title || item.slug || "";
-                              if (seenTitles.has(id)) return false;
-                              seenTitles.add(id);
-                              return true;
-                            });
-                            if (deduped.length === 0) return null;
-                            output = JSON.stringify(deduped);
-                          }
-                        } catch {}
-                        return (
-                          <ToolResultCards
-                            key={key}
-                            toolName={toolName}
-                            result={output}
-                          />
-                        );
-                      }
-                      default:
-                        return null;
-                    }
-                  }
-
-                  return null;
-                });
-              })()}
-
-              {/* Follow-up suggestions */}
-              {isLastAssistant && followups.length > 0 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.2 }}
-                  className="flex flex-wrap gap-2 pl-[52px] pt-2"
-                >
-                  {followups.map((q) => (
-                    <Button
-                      key={q}
-                      variant="secondary"
-                      size="sm"
-                      onClick={() => sendMessage({ text: q })}
-                    >
-                      {q}
-                    </Button>
-                  ))}
-                </motion.div>
-              )}
-            </div>
+            <AssistantParts
+              key={message.id}
+              message={message}
+              isLastAssistant={mi === messages.length - 1 && status === "ready"}
+              sendMessage={sendMessage}
+            />
           );
         })}
 
@@ -336,10 +366,16 @@ export const AIChat = ({ query }: { query?: string }) => {
       </div>
 
       <div className="sticky bottom-6 mt-8">
+        {error && (
+          <div className="mb-2 rounded-xl bg-red-500/10 border border-red-500/20 px-4 py-2 text-sm text-red-500 text-center">
+            {error}
+          </div>
+        )}
         <form
           onSubmit={(e) => {
             e.preventDefault();
             if (input.trim()) {
+              setError(null);
               sendMessage({ text: input });
               setInput("");
             }
@@ -349,13 +385,13 @@ export const AIChat = ({ query }: { query?: string }) => {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            disabled={status !== "ready" && status !== "error"}
+            disabled={isDisabled}
             placeholder="Ask me anything..."
             className="flex-1 bg-transparent text-foreground font-medium placeholder:text-muted-foreground outline-none disabled:opacity-50"
           />
           <Button
             type="submit"
-            disabled={status !== "ready" && status !== "error"}
+            disabled={isDisabled}
             className="text-base font-semibold rounded-2xl disabled:opacity-40"
           >
             Send
@@ -372,41 +408,39 @@ const AITemplateQuestions = ({
   sendMessage,
 }: {
   sendMessage: UseChatHelpers<UIMessage>["sendMessage"];
-}) => {
-  return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      transition={{ staggerChildren: 0.075 }}
-      className="flex mx-auto gap-1 justify-center max-w-4xl p-4 flex-wrap"
-    >
-      {templateQuestions.map(({ icon: Icon, label }) => (
-        <motion.div
-          key={label}
-          variants={{
-            hidden: { opacity: 0, y: 8 },
-            visible: { opacity: 1, y: 0 },
+}) => (
+  <motion.div
+    initial="hidden"
+    animate="visible"
+    transition={{ staggerChildren: 0.075 }}
+    className="flex mx-auto gap-1 justify-center max-w-4xl p-4 flex-wrap"
+  >
+    {templateQuestions.map(({ icon: Icon, label }) => (
+      <motion.div
+        key={label}
+        variants={{
+          hidden: { opacity: 0, y: 8 },
+          visible: { opacity: 1, y: 0 },
+        }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      >
+        <Button
+          onClick={(e) => {
+            e.preventDefault();
+            sendMessage({ text: label });
           }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+          size="lg"
+          variant="secondary"
         >
-          <Button
-            onClick={(e) => {
-              e.preventDefault();
-              sendMessage({ text: label });
-            }}
-            size="lg"
-            variant={"secondary"}
-          >
-            <Icon className="size-5" />
-            {label}
-          </Button>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-};
+          <Icon className="size-5" />
+          {label}
+        </Button>
+      </motion.div>
+    ))}
+  </motion.div>
+);
 
-// ─── Initial Thinking Indicator (before assistant responds) ───
+// ─── Initial Thinking Indicator ───
 
 const thinkingPhrases = [
   "Hmm let me think...",
@@ -449,21 +483,7 @@ function InitialThinkingIndicator({
 
   return (
     <div className="flex items-center gap-3 pl-[52px]">
-      <div className="flex gap-1">
-        {[0, 1, 2].map((i) => (
-          <motion.div
-            key={i}
-            className="size-2 rounded-full bg-muted-foreground/60"
-            animate={{ scale: [1, 1.4, 1], opacity: [0.4, 1, 0.4] }}
-            transition={{
-              duration: 1,
-              repeat: Infinity,
-              delay: i * 0.2,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </div>
+      <BouncingDots />
       <AnimatePresence mode="wait">
         <motion.span
           key={phraseIndex}
@@ -483,7 +503,7 @@ function InitialThinkingIndicator({
 // ─── Intro ───
 
 const AIIntro = () => (
-  <div className="flex flex-col mx-auto font-sans mt-10  gap-4 max-w-md w-fit items-center justify-center">
+  <div className="flex flex-col mx-auto font-sans mt-10 gap-4 max-w-md w-fit items-center justify-center">
     <Image
       src="/avatar.png"
       width="120"
@@ -493,7 +513,7 @@ const AIIntro = () => (
     />
     <div className="flex text-center flex-col w-fit gap-3">
       <h1 className="text-3xl font-extrabold">Hello! I&apos;m Weibo</h1>
-      <p className="text-3xl text-muted-foreground text-pretty  max-w-lg font-medium">
+      <p className="text-3xl text-muted-foreground text-pretty max-w-lg font-medium">
         I train this AI on everything about me. Ask me anything
       </p>
       <span className="text-muted-foreground italic">
