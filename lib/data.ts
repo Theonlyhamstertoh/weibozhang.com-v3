@@ -129,6 +129,61 @@ export const workShowcases: WorkShowcase[] = [
   },
 ];
 
+export const projects = [
+  {
+    title: "Personal Website v3",
+    description:
+      "This website! Built with Next.js, Tailwind, and MDX. Features an AI chat, blog system, and bento grid layout.",
+    tags: ["Next.js", "Tailwind", "MDX", "AI"],
+    href: "https://github.com/Theonlyhamstertoh/weibozhang-v3",
+  },
+  {
+    title: "Miaomo AI",
+    description:
+      "NotebookLLM Clone. Allows you to upload PDFs and allow AI to answer base on specific part of text",
+    tags: ["Next.js", "Tailwind", "LLM", "VectorDB"],
+  },
+  {
+    title: "AI Observability Tool",
+    description:
+      "A personal project exploring AI observability — tracking and understanding AI system behavior.",
+    tags: ["AI", "Observability", "TypeScript"],
+  },
+  {
+    title: "Packtime (Design Only)",
+    description: `Schedule to meet with friends & teams`,
+    href: "https://www.figma.com/design/yp5uPcV81F9ufxPCXh7DGE/Packtime?node-id=220-1306",
+    tags: ["Figma"],
+
+    date: new Date("2024-04-15"),
+  },
+  {
+    title: "BudgetBird",
+    description: "Budget Tracker App with Beautiful UI for college project",
+    tags: ["Next.js", "University Project", "Tailwind", "React"],
+
+    href: "https://budgetbird.vercel.app/",
+    date: new Date("2024-04-30"),
+  },
+  {
+    title: "Meowrite",
+    description: "AI cover letter generator for job searching",
+    href: "https://www.meowrite.com/",
+    tags: ["Next.js", "Tailwind", "LLM"],
+
+    date: new Date("2024-02-08"),
+  },
+  {
+    title: "Jello (Failed to Launch)",
+    description:
+      "Language learning through progressively harder audio challenges",
+    href: "https://learnwithjello.com/",
+    tags: ["Next.js", "Language Learning", "LLM", "Figma"],
+
+    date: new Date("2023-12-08"),
+  },
+];
+
 // ─── Nav Links ───
 
 export const navLinks = [

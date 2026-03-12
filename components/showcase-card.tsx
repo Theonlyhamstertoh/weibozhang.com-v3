@@ -90,7 +90,7 @@ export function ShowcaseCard({
           {tags.map((tag) => (
             <span
               key={tag}
-              className="text-xs font-medium text-muted-foreground bg-muted  px-2 py-0.5 rounded-full transition-colors"
+              className="text-xs font-medium text-muted-foreground bg-neutral-200 dark:bg-neutral-900  px-2 py-0.5 rounded-full transition-colors"
             >
               {tag}
             </span>
