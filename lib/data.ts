@@ -150,7 +150,15 @@ export const projects = [
     tags: ["AI", "Observability", "TypeScript"],
   },
   {
-    title: "Packtime (Design Only)",
+    title: "Saplin (Design)",
+    description: `Minimalistic Journal App`,
+    href: "https://www.figma.com/design/0lZgUkjHqkHe12AemsYCFT/Journal-App?node-id=0-1&t=vYhNa3M00QXvRnT2-1",
+    tags: ["Figma"],
+
+    date: new Date("2024-04-15"),
+  },
+  {
+    title: "Packtime (Design)",
     description: `Schedule to meet with friends & teams`,
     href: "https://www.figma.com/design/yp5uPcV81F9ufxPCXh7DGE/Packtime?node-id=220-1306",
     tags: ["Figma"],
@@ -174,7 +182,7 @@ export const projects = [
     date: new Date("2024-02-08"),
   },
   {
-    title: "Jello (Failed to Launch)",
+    title: "Jello (Design)",
     description:
       "Language learning through progressively harder audio challenges",
     href: "https://learnwithjello.com/",
