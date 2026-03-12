@@ -49,9 +49,9 @@ export function CurlyArrow(props: SVGProps<SVGSVGElement>) {
       <path
         d="M7.61095 2C7.61095 35.0456 17.4569 49.1599 18.8492 38.4062C20.5313 25.4138 7.63124 34.9334 6.71588 54.0887C6.02001 68.6511 7.61132 98 7.61132 98M7.61132 98C7.61132 98 10.905 91.7 11.9844 89.6M7.61132 98C7.61132 98 3.34944 91.7 2.00024 89.9"
         stroke="#333333"
-        stroke-width="4"
-        stroke-miterlimit="16"
-        stroke-linecap="round"
+        strokeWidth="4"
+        strokeMiterlimit="16"
+        strokeLinecap="round"
       />
     </svg>
   );

@@ -1,5 +1,5 @@
+import { ShowcaseCard } from "@/components/showcase-card";
 import { getAllPosts } from "@/lib/blog";
-import Link from "next/link";
 
 export default function BlogPage() {
   const posts = getAllPosts();
@@ -22,23 +22,18 @@ export default function BlogPage() {
       <div className="flex flex-col gap-8">
         {years.map((year) => (
           <div key={year} className="flex flex-col gap-4">
-            <h2 className="bg-sky-950 text-sky-500 p-1 rounded-lg font-extrabold text-3xl w-fit">
+            <h2 className="bg-primary text-primary-foreground p-1 rounded-lg font-extrabold text-3xl w-fit">
               {year}
             </h2>
             <div className="flex flex-wrap gap-4">
               {postsByYear[year].map((post) => (
-                <Link
+                <ShowcaseCard
                   key={post.slug}
+                  title={post.title}
+                  date={new Date(post.date).toLocaleDateString()}
                   href={`/blog/${post.slug}`}
-                  className="group flex flex-col duration-100 h-66 w-full md:w-72 gap-1 rounded-xl bg-neutral-900 p-6 hover:outline-neutral-700 hover:outline hover:bg-neutral-800 transition-colors"
-                >
-                  <span className="text-2xl font-semibold text-neutral-200 group-hover:text-white">
-                    {post.title}
-                  </span>
-                  <span className="text-neutral-600 mt-auto font-medium text-lg">
-                    {new Date(post.date).toLocaleDateString()}
-                  </span>
-                </Link>
+                  className="h-66 w-full md:w-72"
+                />
               ))}
             </div>
           </div>

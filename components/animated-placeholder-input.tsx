@@ -51,7 +51,7 @@ export function AnimatedPlaceholderInput({
   return (
     <input
       value={query}
-      className="placeholder:text-neutral-600 text-neutral-50 font-semibold outline-0 border-0 w-full p-0"
+      className="placeholder:text-muted-foreground text-foreground font-semibold outline-0 border-0 w-full p-0"
       onChange={(e) => setQuery(e.target.value)}
       placeholder={displayText}
     />

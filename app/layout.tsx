@@ -42,9 +42,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
+    <html lang="en" className={cn("font-sans", inter.variable)} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `try{if(localStorage.getItem("theme")!=="light")document.documentElement.classList.add("dark")}catch(e){}` }} />
+      </head>
       <body
-        className={`${geistSans.variable} ${caveat.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-[#0B0B0B] antialiased ${bricolageGrotesque.className}`}
+        className={`${geistSans.variable} ${caveat.variable} ${bricolageGrotesque.variable} ${geistMono.variable} bg-background text-foreground antialiased ${bricolageGrotesque.className}`}
       >
         <div className="flex min-h-screen flex-col">
           <Navbar />

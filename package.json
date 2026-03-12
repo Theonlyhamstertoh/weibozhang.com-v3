@@ -32,6 +32,7 @@
     "react-markdown": "^10.1.0",
     "rehype-pretty-code": "^0.14.3",
     "remark-frontmatter": "^5.0.0",
+    "remark-gfm": "^4.0.1",
     "remark-mdx-frontmatter": "^5.2.0",
     "shadcn": "^4.0.2",
     "shiki": "^4.0.2",

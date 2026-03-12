@@ -22,11 +22,11 @@ const monthNames = [
 ];
 
 const levelColors = [
-  "bg-neutral-800",
-  "bg-neutral-600",
-  "bg-neutral-500",
-  "bg-neutral-300",
-  "bg-neutral-100",
+  "bg-neutral-100 dark:bg-neutral-800",
+  "bg-neutral-300 dark:bg-neutral-600",
+  "bg-neutral-500 dark:bg-neutral-500",
+  "bg-neutral-600 dark:bg-neutral-300",
+  "bg-neutral-800 dark:bg-neutral-100",
 ] as const;
 
 type Contribution = { date: string; count: number; level: number };
@@ -88,29 +88,33 @@ function getMonthGroups(stats: GitHubStats): MonthGroup[] {
   return groups;
 }
 
-export async function GitHubContributionGraph({ className }: { className?: string }) {
+export async function GitHubContributionGraph({
+  className,
+}: {
+  className?: string;
+}) {
   const stats = await fetchStats();
   const months = getMonthGroups(stats);
 
   return (
-    <Card className={cn("space-y-4", className)}>
+    <Card className={cn("space-y-4 overflow-hidden", className)}>
       <CardHeader>
         <div className="flex items-center gap-1">
           <GithubIcon className="size-6" />
           <h2 className="text-xl tracking-tight font-extrabold">Github</h2>
         </div>
-        <p className="text-neutral-400">
+        <p className="text-muted-foreground">
           {stats.total.lastYear} contributions in the last year
         </p>
       </CardHeader>
 
-      <CardContent className="flex gap-1 overflow-x-auto">
+      <CardContent className="flex gap-1 overflow-x-auto overflow-y-clip">
         {/* Day labels column */}
         <div className="flex flex-col gap-[3px] pr-2 pt-6">
           {dayLabels.map((label, i) => (
             <div
               key={i}
-              className="flex h-[14px] items-center text-xs text-neutral-500"
+              className="flex h-[14px] items-center text-xs text-muted-foreground"
             >
               {label}
             </div>
@@ -123,7 +127,7 @@ export async function GitHubContributionGraph({ className }: { className?: strin
 
           return (
             <div key={mi} className="flex flex-col gap-1 ml-3">
-              <span className="text-xs text-neutral-400 pl-0.5 h-5">
+              <span className="text-xs text-muted-foreground pl-0.5 h-5">
                 {month.name}
                 {showYear ? ` '${String(month.year).slice(2)}` : ""}
               </span>
@@ -153,7 +157,7 @@ export async function GitHubContributionGraph({ className }: { className?: strin
       </CardContent>
 
       {/* Legend */}
-      <CardFooter className="flex items-center justify-end gap-1.5 text-xs text-neutral-500">
+      <CardFooter className="flex items-center justify-end gap-1.5 text-xs text-muted-foreground">
         <span>Less</span>
         {levelColors.map((color, i) => (
           <div key={i} className={cn("size-[14px] rounded-[3px]", color)} />

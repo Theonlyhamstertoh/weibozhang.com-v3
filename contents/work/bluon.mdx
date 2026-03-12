@@ -1,0 +1,134 @@
+---
+title: "Bluon"
+slug: "bluon"
+---
+
+# Bluon
+
+![Bluon AI](/work/bluon-ai.png)
+
+--- 
+
+Bluon is the leading provider of technical data and AI-powered support for the HVAC-R industry. The platform provides equipment data, model lookups, manuals, parts cross-references, and AI tech support across **20M+ model numbers** from **200+ brands** — used by companies like ServiceTitan, BuildOps, Housecall Pro, Goettl, and ARS Rescue Rooter.
+
+I've been at Bluon since June 2023, starting under the SVP of Technology and growing into owning the AI side of the product. Today I'm responsible for **MasterMechanic** — Bluon's AI-powered technical support tool — from architecture and design through implementation and deployment.
+
+**Role:** Software Developer (June 2023 – Present)
+**Stack:** Next.js, TypeScript, AI SDK, OpenAI, Pinecone, PostgreSQL, Zustand, Zod
+
+---
+
+### MasterMechanic Model Search & Manual RAG Demo
+<div style={{position: "relative", padding: "75% 0 0 0"}}>
+  <iframe
+    src="https://player.vimeo.com/video/1172760919?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1"
+    frameBorder="0"
+    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+    referrerPolicy="strict-origin-when-cross-origin"
+    style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}
+    title="AI Model Search Demo"
+  />
+</div>
+
+### MasterMechanic AI Tools Demo
+<div style={{position: "relative", padding: "66.5% 0 0 0"}}>
+  <iframe
+    src="https://player.vimeo.com/video/1172760931?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1"
+    frameBorder="0"
+    allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media; web-share"
+    referrerPolicy="strict-origin-when-cross-origin"
+    style={{position: "absolute", top: 0, left: 0, width: "100%", height: "100%"}}
+    title="AI Tools Demo"
+  />
+</div>
+
+## MasterMechanic — AI Tech Support
+
+### Techs had no fast way to get expert help in the field
+
+**Problem:** Bluon ran a **20-person call center** to support HVAC technicians on job sites. Techs would call in, wait on hold, and describe their problem to a support rep — while the customer sat in the heat. It was expensive, slow, and couldn't scale. A GPT-3.5 chatbot prototype existed but knew nothing about HVAC — it gave vague answers and hallucinated part numbers. Nobody trusted it.
+
+**Solution:** Working with the SVP of Technology, I built a **RAG pipeline** using **50k+ recorded support call transcripts** — real conversations full of troubleshooting patterns and field-tested solutions. The pipeline ran OpenAI transcription → LLM filtering → JSON summarization with structured field tags → vectorized and indexed in **Pinecone**. I also redesigned the chatbot UI and rebuilt it in **Next.js with AI SDK**.
+
+**Result:** Retrieval relevance improved from **70% to 92%**, validated by a formal evaluation where **20–40 experienced technicians** graded responses across **100 standardized questions**. Weekly conversations grew from **~100–200** to **2,000+**, monthly chats hit **10,000+**, and the call center was replaced by AI-assisted self-service.
+
+---
+
+### The AI was hallucinating model-specific details
+
+**Problem:** The transcript-based RAG worked for general troubleshooting, but techs needed *exact* answers — specific model specs, compatible replacement parts, error codes. Transcripts couldn't provide that level of precision, and the AI would fill in the gaps with hallucinated data. In HVAC, a wrong part number isn't just unhelpful — it's dangerous.
+
+**Solution:** Shifted the architecture from pure RAG to **AI tool-calling with AI SDK and streaming**. Instead of guessing from transcripts, MasterMechanic now calls **Bluon's API** in real time — model lookup across **20M+ model numbers**, nameplate photo reader (I built the first OCR prototype as an intern — it later shipped as a production feature), manual retrieval via Pinecone, and image/file uploads. Each tool is wired with structured schemas and tracked for usage and feedback.
+
+**Result:** MasterMechanic went from approximate answers to **verified, source-backed responses** pulled from Bluon's own database. This is what earned technician trust and made adoption take off.
+
+---
+
+### Techs wanted direct access to AI tools, not just chat
+
+**Problem:** Watching usage patterns, I noticed techs were repeatedly asking the chat to do things it was already doing internally — model lookups, manual searches, nameplate reads. They wanted to go straight to the tool without conversing with the AI first.
+
+**Solution:** Designed and built an **AI Tools dropdown** that surfaces all of MasterMechanic's internal tools directly. Techs can now choose to ask the AI *or* go straight to the tool — whatever's faster for their workflow. This was my idea, from identifying the pattern through prototyping, getting executive buy-in, and shipping through dev → QA → production.
+
+**Result:** Gave users a faster path to answers and reduced unnecessary chat interactions for straightforward lookups.
+
+---
+
+### Techs kept asking the AI to write up what they did on a job
+
+**Problem:** A recurring pattern in conversations — techs would finish troubleshooting and then ask MasterMechanic to summarize the job for documentation, their manager, or the customer.
+
+**Solution:** Built a **Job Summary AI** feature that auto-generates structured summaries from the conversation history — what was diagnosed, what was done, what parts were involved.
+
+**Result:** Turned a manual, repetitive task into a one-click feature, saving techs time on every job.
+
+---
+
+## Plugin & API — Partner Integrations
+
+### Auth was silently breaking on partner platforms
+
+**Problem:** Bluon's **Plugin** and **API** products embed MasterMechanic and Bluon's tools directly inside partner platforms like **ServiceTitan**, **BuildOps**, and **Housecall Pro** via iFrames. But mobile WebViews and many partner environments silently block third-party cookies — our cookie-based auth was failing for a significant chunk of users with no visible error. Sessions just quietly broke.
+
+**Solution:** Built **JWT-based authentication using the PostMessage API** for secure cross-origin token exchange between the parent platform and Bluon's embedded iFrame. Migrated all client-side auth state to **Zustand** with bearer tokens, completely eliminating the cookie dependency.
+
+**Result:** Auth works reliably across all partner platforms and mobile WebViews — no more silent failures.
+
+---
+
+### No database existed for chat at scale
+
+**Problem:** As MasterMechanic usage grew, there was no infrastructure to store conversations, tool calls, feedback, or analytics at scale.
+
+**Solution:** Designed a **PostgreSQL schema from scratch** supporting **200k+ chats** with relational tables for messages, parts, tool calls, AI responses, shared chats, and user feedback — modeled around AI SDK's UI message format. Built **REST APIs** and analytics endpoints on top of it.
+
+**Result:** A scalable data layer that powers MasterMechanic's chat history, analytics, and feedback loops across all deployment contexts.
+
+---
+
+### A breaking SDK change threatened production data
+
+**Problem:** A breaking change in **AI SDK** altered how chats and messages were stored, making the existing database format incompatible with the new version.
+
+**Solution:** Led the **production database migration** — built type-safe conversion and parsing with **Zod** to transform all existing chat data to the new format.
+
+**Result:** **Zero data loss.** Full migration completed without disrupting live users.
+
+
+
+## Impact
+
+| Metric | Detail |
+|--------|--------|
+| **Weekly conversations** | **~100–200** at launch → **2,000+** now |
+| **Monthly chats** | **10,000+** |
+| **Retrieval relevance** | **70% → 92%**, formally validated |
+| **Support model** | **20-person call center** → AI-assisted self-service |
+| **Data loss** | **Zero** across production migrations |
+
+
+## What I Learned
+
+The hardest part of building AI products isn't the AI — it's figuring out what data to trust. Transcripts got us started, but real accuracy came from connecting to verified source data through tool-calling.
+
+Owning a product means more than writing code. I design prototypes, pitch to C-level executives, push features through dev → QA → production, and catch breaking changes before they hit users. I started at Bluon exploring what AI could do. Now I own MasterMechanic.

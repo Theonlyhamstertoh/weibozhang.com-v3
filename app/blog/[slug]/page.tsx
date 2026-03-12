@@ -21,13 +21,13 @@ export default async function Page({
     <article className="">
       <Link
         href="/blog"
-        className=" flex items-center text-neutral-600  underline-offset-3"
+        className=" flex items-center text-muted-foreground  underline-offset-3"
       >
         <ChevronLeft className="stroke-2" />
         Back to Blogs
       </Link>
       <h1>{frontmatter.title}</h1>
-      <p className="text-neutral-500">{frontmatter.date}</p>
+      <p className="text-muted-foreground">{frontmatter.date}</p>
       <Post />
     </article>
   );
