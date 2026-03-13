@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/node_modules/.pnpm/zod%404.3.6/node_modules/zod/v4/index.js"],"sourcesContent":["import z4 from \"./classic/index.js\";\nexport * from \"./classic/index.js\";\nexport default z4;\n"],"names":[],"mappings":";;;;AAAA;;;uCAEe,6QAAE","ignoreList":[0]}}]
-}

@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 18, "column": 0}, "map": {"version":3,"sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/app/page.tsx"],"sourcesContent":["import {\n  AboutMeCard,\n  EducationCard,\n  ExperienceCard,\n  RecentBlogsCard,\n} from \"@/components/bento-card\";\nimport { Card, CardContent } from \"@/components/ui/card\";\n\nexport default function Home() {\n  return (\n    <div className=\"flex min-h-screen items-center justify-center font-sans p-6\"></div>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAQe,SAAS;IACtB,qBACE,kcAAC;QAAI,WAAU;;;;;;AAEnB"}}]
-}

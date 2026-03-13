@@ -1,3 +1,0 @@
-module.exports=[82122,a=>{"use strict";var b=a.i(12602);function c({children:a}){return(0,b.jsx)("div",{className:"prose prose-neutral dark:prose-invert max-w-2xl mx-auto w-full prose-headings:mt-8 prose-headings:font-semibold py-10 px-6 prose-h1:text-4xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg text-pretty",children:a})}a.s(["default",()=>c])}];
-
-//# sourceMappingURL=Documents_code_webdev_weibozhang-v3_app_now_layout_tsx_b8dd9fad._.js.map

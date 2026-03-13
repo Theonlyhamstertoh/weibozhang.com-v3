@@ -1,7 +1,15 @@
 import { getAllPosts } from "@/lib/blog";
+import { useMDXComponents } from "@/mdx-components";
 import { ChevronLeft } from "@mynaui/icons-react";
+import fs from "fs";
 import Link from "next/link";
+import { compileMDX } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
+import path from "path";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 
 export default async function Page({
   params,
@@ -13,9 +21,27 @@ export default async function Page({
 
   if (!post) notFound();
 
-  const { default: Post, frontmatter } = await import(
-    `@/contents/blog/${post.fileName}.mdx`
+  const filePath = path.join(
+    process.cwd(),
+    "contents/blog",
+    `${post.fileName}.mdx`
   );
+  const source = fs.readFileSync(filePath, "utf-8");
+
+  const { content, frontmatter } = await compileMDX<{
+    title: string;
+    date: string;
+  }>({
+    source,
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: {
+        remarkPlugins: [remarkGfm, remarkFrontmatter, remarkMdxFrontmatter],
+        rehypePlugins: [[rehypePrettyCode, { theme: "github-dark" }]],
+      },
+    },
+    components: useMDXComponents(),
+  });
 
   return (
     <article className="">
@@ -28,7 +54,7 @@ export default async function Page({
       </Link>
       <h1>{frontmatter.title}</h1>
       <p className="text-muted-foreground">{frontmatter.date}</p>
-      <Post />
+      {content}
     </article>
   );
 }

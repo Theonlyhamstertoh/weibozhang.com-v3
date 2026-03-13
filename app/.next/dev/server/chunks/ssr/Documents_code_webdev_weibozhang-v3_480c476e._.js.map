@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/mdx-components.tsx"],"sourcesContent":["import type { MDXComponents } from \"mdx/types\";\n\nconst components: MDXComponents = {};\n\nexport function useMDXComponents(): MDXComponents {\n  return components;\n}\n"],"names":[],"mappings":";;;;AAEA,MAAM,aAA4B,CAAC;AAE5B,SAAS;IACd,OAAO;AACT"}},
-    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"file":"turbopack:///[project]/Documents/code/webdev/weibozhang-v3/contents/welcome.mdx","sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/contents/welcome.mdx"],"sourcesContent":["what is r-22\nwhat is tdx-20\n"],"names":[],"mappings":";;;;;;;;;;;;;;;kBAAA"}}]
-}

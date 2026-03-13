@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/app/now/layout.tsx"],"sourcesContent":["export default function NowLayout({ children }: { children: React.ReactNode }) {\n  return (\n    <div className=\"prose prose-neutral dark:prose-invert max-w-2xl mx-auto w-full prose-headings:mt-8 prose-headings:font-semibold py-10 px-6 prose-h1:text-4xl prose-h2:text-2xl prose-h3:text-xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg text-pretty\">\n      {children}\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;;AAAe,SAAS,UAAU,EAAE,QAAQ,EAAiC;IAC3E,qBACE,0eAAC;QAAI,WAAU;kBACZ;;;;;;AAGP"}}]
-}
