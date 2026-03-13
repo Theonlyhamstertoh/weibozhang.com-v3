@@ -458,7 +458,7 @@ function InitialThinkingIndicator({
   if (!isThinking) return null;
 
   return (
-    <div className="flex items-center gap-3 pl-[52px]">
+    <div className="flex items-center gap-3 ">
       <BouncingDots />
       <AnimatePresence mode="wait">
         <motion.span

@@ -1,6 +1,5 @@
 import { ShowcaseCard } from "@/components/showcase-card";
 import { projects, workShowcases } from "@/lib/data";
-import Link from "next/link";
 
 export default function WorkPage() {
   return (
