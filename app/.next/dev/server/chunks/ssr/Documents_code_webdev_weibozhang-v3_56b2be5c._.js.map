@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/mdx-components.tsx"],"sourcesContent":["import type { MDXComponents } from \"mdx/types\";\n\nconst components: MDXComponents = {};\n\nexport function useMDXComponents(): MDXComponents {\n  return components;\n}\n"],"names":[],"mappings":";;;;AAEA,MAAM,aAA4B,CAAC;AAE5B,SAAS;IACd,OAAO;AACT"}},
+    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"file":"turbopack:///[project]/Documents/code/webdev/weibozhang-v3/contents/blog/postgres-shortcuts.mdx","sources":["file:///Users/weibo/Documents/code/webdev/weibozhang-v3/contents/blog/postgres-shortcuts.mdx"],"sourcesContent":["---\ntitle: \"Postgres Snippets\"\ndate: \"Jun 12 2024\"\npublished: true\ndescription: \"Snippets I learned for Postgres\"\n---\n\n## Return data_type for each column name\n\n```sql title=\"postgres\"\nSELECT\n    column_name,\n    data_type\nFROM\n    information_schema.columns\nWHERE\n    table_name = {table_name};\n\n-- Result\n/*\n| column_name     | data_type                   |\n| :-------------- | :-------------------------- |\n| id              | integer                     |\n| user_id         | bigint                      |\n| thread_id       | character varying           |\n| created_at      | timestamp without time zone |\n*/\n```\n"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;0BAOG"}}]
+}
