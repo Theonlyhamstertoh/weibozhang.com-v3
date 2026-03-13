@@ -71,7 +71,7 @@ export const education: InfoEntry[] = [
     dateRange: "Aug 2022 - May 2026",
   },
   {
-    title: "Ritsumeikan University Kyoto Japan",
+    title: "Ritsumeikan University Japan",
     description: "Study Abroad",
     dateRange: "March 2025 - August 2025",
   },
