@@ -1,9 +1,4 @@
-import {
-  readBlogPost,
-  readWorkPage,
-  searchBlogs,
-  searchWork,
-} from "@/lib/ai-tools";
+import { readBlogPost, readWorkPage } from "@/lib/ai-tools";
 import { aiSystemPrompt } from "@/lib/data";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { anthropic, AnthropicProviderOptions } from "@ai-sdk/anthropic";
@@ -50,8 +45,6 @@ export async function POST(req: Request) {
     } as SystemModelMessage,
     messages: await convertToModelMessages(messages),
     tools: {
-      searchBlogs,
-      searchWork,
       readBlogPost,
       readWorkPage,
     },

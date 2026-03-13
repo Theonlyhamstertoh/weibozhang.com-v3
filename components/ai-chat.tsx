@@ -19,10 +19,10 @@ import {
 import { DefaultChatTransport, UIMessage } from "ai";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { ShowcaseCard } from "./showcase-card";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 
 const templateQuestions = [
   { label: "Background", icon: User },
@@ -86,24 +86,16 @@ function BouncingDots() {
 
 function ChatThinkingStatus({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-3 pl-[52px] py-2">
+    <div className="flex items-center gap-3  py-2">
       <BouncingDots />
       <span className="text-sm text-muted-foreground italic">{label}</span>
     </div>
   );
 }
 
-// ─── Tool Result Cards ───
+// ─── Tool Result Card ───
 
-interface ToolResultItem {
-  title?: string;
-  date?: string;
-  slug?: string;
-  excerpt?: string;
-  content?: string;
-}
-
-function ToolResultCards({
+function ToolResultCard({
   toolName,
   result,
 }: {
@@ -115,70 +107,40 @@ function ToolResultCards({
     (result.startsWith("No ") || result.includes("not found"))
   ) {
     return (
-      <div className="pl-[52px] text-sm text-muted-foreground italic py-2">
-        {result}
-      </div>
+      <div className="text-sm text-muted-foreground italic py-2">{result}</div>
     );
   }
 
-  let items: ToolResultItem[] = [];
+  let item: { title?: string; date?: string; content?: string };
   try {
-    const parsed = JSON.parse(result);
-    items = Array.isArray(parsed) ? parsed : [parsed];
+    item = JSON.parse(result);
   } catch {
     return null;
   }
 
-  if (items.length === 0) return null;
-
-  const isBlog = toolName === "searchBlogs" || toolName === "readBlogPost";
-
-  if (isBlog) {
-    return (
-      <div className="pl-[52px] flex flex-col gap-2 py-2">
-        {items.map((item, i) => {
-          const href = item.slug
-            ? `/blog/${item.slug}`
-            : `/blog/${(item.title || "")
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-")
-                .replace(/(^-|-$)/g, "")}`;
-
-          return (
-            <a
-              key={i}
-              href={href}
-              className="flex items-center gap-3 rounded-xl bg-muted px-4 py-3 hover:bg-muted/70 transition-colors"
-            >
-              <PenSolid className="size-4 text-muted-foreground shrink-0" />
-              <span className="font-semibold text-foreground tracking-tight truncate">
-                {item.title}
-              </span>
-              {item.date && (
-                <span className="text-xs text-muted-foreground ml-auto shrink-0">
-                  {new Date(item.date).toLocaleDateString()}
-                </span>
-              )}
-            </a>
-          );
-        })}
-      </div>
-    );
-  }
+  const isBlog = toolName === "readBlogPost";
+  const href = isBlog
+    ? `/blog/${item.title
+        ?.toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "")}`
+    : `/work/${toolName === "readWorkPage" ? item.title?.toLowerCase() : ""}`;
 
   return (
-    <div className="pl-[52px] grid grid-cols-1 sm:grid-cols-2 gap-3 py-2">
-      {items.map((item, i) => (
-        <ShowcaseCard
-          key={i}
-          title={item.title || "Untitled"}
-          description={item.excerpt?.replace(/\.\.\./g, "").trim()}
-          badge="Work"
-          badgeClassName="bg-blue-600"
-          href={`/work/${item.slug}`}
-        />
-      ))}
-    </div>
+    <a
+      href={href}
+      className="flex items-center gap-3 rounded-xl bg-muted px-4 py-3 hover:bg-muted/70 transition-colors my-2"
+    >
+      {isBlog && <PenSolid className="size-4 text-muted-foreground shrink-0" />}
+      <span className="font-semibold text-foreground tracking-tight truncate">
+        {item.title}
+      </span>
+      {item.date && (
+        <span className="text-xs text-muted-foreground ml-auto shrink-0">
+          {new Date(item.date).toLocaleDateString()}
+        </span>
+      )}
+    </a>
   );
 }
 
@@ -227,9 +189,26 @@ function AssistantParts({
           return (
             <div
               key={key}
-              className="text-foreground/80 leading-relaxed space-y-4 pl-[52px]"
+              className="text-foreground/80 leading-relaxed space-y-4 "
             >
-              <ReactMarkdown>{content}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  a: ({ href, children }) => (
+                    <Link
+                      className={buttonVariants({
+                        variant: "secondary",
+                        size: "sm",
+                        className: "my-0.5 ",
+                      })}
+                      href={href ?? ""}
+                    >
+                      {children}
+                    </Link>
+                  ),
+                }}
+              >
+                {content}
+              </ReactMarkdown>
             </div>
           );
         }
@@ -263,11 +242,7 @@ function AssistantParts({
                 }
               } catch {}
               return (
-                <ToolResultCards
-                  key={key}
-                  toolName={toolName}
-                  result={output}
-                />
+                <ToolResultCard key={key} toolName={toolName} result={output} />
               );
             }
             default:
@@ -283,13 +258,14 @@ function AssistantParts({
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.2 }}
-          className="flex flex-wrap gap-2 pl-[52px] pt-2"
+          className="flex flex-wrap gap-2 grow  pt-2"
         >
           {followups.map((q) => (
             <Button
               key={q}
-              variant="secondary"
+              variant="default"
               size="sm"
+              className="whitespace-pre-wrap text-start tracking-normal font-medium shrink py-1 min-h-8 h-auto"
               onClick={() => sendMessage({ text: q })}
             >
               {q}

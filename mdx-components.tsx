@@ -1,6 +1,7 @@
 import { ShowcaseCard, ShowcaseGrid } from "@/components/showcase-card";
 import type { MDXComponents } from "mdx/types";
 import Image from "next/image";
+import Link from "next/link";
 
 const components: MDXComponents = {
   img: (props) => (
@@ -14,6 +15,7 @@ const components: MDXComponents = {
       />
     </span>
   ),
+
   ShowcaseCard: (props: any) => <ShowcaseCard {...props} external />,
   ShowcaseGrid: ShowcaseGrid,
 };

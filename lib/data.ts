@@ -189,6 +189,36 @@ export const projects = [
   },
 ];
 
+// ─── Blog Index (for AI context) ───
+
+export const blogIndex = [
+  { title: "Back to creating", slug: "2026-03-02", date: "2026-03-02", description: "Returning to blogging after two years, reflecting on graduating and the road ahead" },
+  { title: "A humbling experience with my car broken down", slug: "2024-06-30", date: "2024-06-30", description: "Car broke down at night on a scenic drive, a humbling and stressful experience" },
+  { title: "Postgres Snippets", slug: "2024-06-12", date: "2024-06-12", description: "Useful Postgres SQL snippets I learned" },
+  { title: "Recreating Google Gemini Loading Animation in CSS & Tailwind", slug: "2024-06-06", date: "2024-06-06", description: "How to recreate the Gemini loading effect in Tailwind and CSS" },
+  { title: "Some things I learn living on my own", slug: "2024-05-26", date: "2024-05-26", description: "Tips and thoughts for those moving out on their own" },
+  { title: "2024 Blog Refresh v3", slug: "2024-05-22", date: "2024-05-22", description: "Revamping my blog with Astro, focused on simplicity" },
+  { title: "A letter of regrets from my future self", slug: "2023-11-13", date: "2023-11-13", description: "A reflective letter about being present and not waiting for the future" },
+  { title: "October 2023 Review", slug: "2023-10-30", date: "2023-10-30", description: "Monthly review of October 2023" },
+  { title: "Focusing on lifestyles over goals", slug: "2023-10-23", date: "2023-10-23", description: "Turning 19, feeling burnt out, shifting focus from goals to lifestyle" },
+  { title: "Slowing down my life this October", slug: "2023-10-03", date: "2023-10-03", description: "Realizing I need to slow down and stop treating others' progress as competition" },
+  { title: "September 2023 Review", slug: "2023-10-01", date: "2023-10-01", description: "Monthly review of September 2023" },
+  { title: "Intentional Education vs Passive Education", slug: "2023-09-28", date: "2023-09-28", description: "Switching from passive classroom learning to intentional self-driven education" },
+  { title: "Roadmap to finding your startups first customers as a tech person", slug: "2023-09-25", date: "2023-09-25", description: "A guide for tech founders on talking to customers and getting first users" },
+  { title: "How much I spent on my Japan Trip in August 2023", slug: "2023-09-18", date: "2023-09-18", description: "Breakdown of pre-travel, hotel, shopping, and food expenses in Japan" },
+  { title: "Embracing Vulnerability", slug: "2023-09-14", date: "2023-09-14", description: "On vulnerability as the core of meaningful human experiences" },
+  { title: "What is actually driving you to do things?", slug: "2023-09-11", date: "2023-09-11", description: "Reflecting on goals, motivations, and the identities tied to them" },
+  { title: "Why I Travel", slug: "2023-09-09", date: "2023-09-09", description: "Experiences and reflections from my trip to Japan and how it changed me" },
+  { title: "A Promise to My Friend", slug: "2023-09-08", date: "2023-09-08", description: "An inside look at my friend's startup journey with Pear" },
+];
+
+// ─── Work Index (for AI context) ───
+
+export const workIndex = [
+  { title: "Bluon AI MasterMechanic", slug: "bluon", description: "Agentic AI for HVAC technicians. Built RAG chatbot, tool-calling, streaming, and database architecture for 200k+ chats." },
+  { title: "Moonwish Studios", slug: "moonwish", description: "Co-founded web dev studio. Shipped 8 production websites for local businesses, $5k+ revenue." },
+];
+
 // ─── Nav Links ───
 
 export const navLinks = [
@@ -362,17 +392,19 @@ Random Facts & Quirks:
 - I really like helping people whenever I can. Like guiding a blind person to their class when they got lost. Or picking up water bottle packs at Costco for older folks. It makes me happy though!
 - I prefer matcha and jasmine tea over coffee.
 
-\n\nYou have tools to search and read Weibo's blog posts and work case studies. USE THEM proactively when:
-- The user asks about blog posts, writing, or what you've written about → use searchBlogs
-- The user asks detailed questions about your work at Bluon, Moonwish, or specific projects → use searchWork or readWorkPage
-- The user asks about a specific blog post → use readBlogPost
-- The user wants to know what you've blogged about on a topic → use searchBlogs
+\n\nYou have a full index of my blog posts and work case studies below. Use this to answer questions about what I've written or worked on WITHOUT needing a tool call.
 
-IMPORTANT TOOL RULES:
-- Only call each tool ONCE per response. Do NOT call the same tool multiple times with different queries.
-- Use a broad, simple single-word query (e.g. "blog", "bluon", "moonwish", "ai") — the search matches any word so keep it simple.
-- When you use a tool, the results will be displayed in the UI automatically. For blog search results, the UI shows a list of blog titles with dates and links — so after calling searchBlogs, just add a brief conversational note without repeating the titles. For work results, showcase cards are shown automatically.
-- Always follow through with a response after using tools — never just say "let me look that up" and stop.
+Blog Posts:
+${blogIndex.map(b => `- "${b.title}" (${b.date}) — ${b.description} [/blog/${b.slug}]`).join("\n")}
+
+Work Case Studies:
+${workIndex.map(w => `- "${w.title}" — ${w.description} [/work/${w.slug}]`).join("\n")}
+
+You have tools to read the FULL content of a blog post or work page when needed:
+- Use readBlogPost when the user asks about the details of a specific blog post.
+- Use readWorkPage when the user asks for detailed info about a specific work project.
+- Only use tools when you need the full content. For listing or summarizing, use the index above directly.
+- When sharing blog or work links, use markdown format: [title](/blog/slug) or [title](/work/slug).
 
 At the very end of every final text response, add exactly 3 follow-up question suggestions. Format them starting with "<<<FOLLOWUPS>>>" then each question on a new line starting with "- ". Example:
 <<<FOLLOWUPS>>>
