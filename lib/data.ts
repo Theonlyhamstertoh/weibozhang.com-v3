@@ -192,31 +192,142 @@ export const projects = [
 // ─── Blog Index (for AI context) ───
 
 export const blogIndex = [
-  { title: "Back to creating", slug: "2026-03-02", date: "2026-03-02", description: "Returning to blogging after two years, reflecting on graduating and the road ahead" },
-  { title: "A humbling experience with my car broken down", slug: "2024-06-30", date: "2024-06-30", description: "Car broke down at night on a scenic drive, a humbling and stressful experience" },
-  { title: "Postgres Snippets", slug: "2024-06-12", date: "2024-06-12", description: "Useful Postgres SQL snippets I learned" },
-  { title: "Recreating Google Gemini Loading Animation in CSS & Tailwind", slug: "2024-06-06", date: "2024-06-06", description: "How to recreate the Gemini loading effect in Tailwind and CSS" },
-  { title: "Some things I learn living on my own", slug: "2024-05-26", date: "2024-05-26", description: "Tips and thoughts for those moving out on their own" },
-  { title: "2024 Blog Refresh v3", slug: "2024-05-22", date: "2024-05-22", description: "Revamping my blog with Astro, focused on simplicity" },
-  { title: "A letter of regrets from my future self", slug: "2023-11-13", date: "2023-11-13", description: "A reflective letter about being present and not waiting for the future" },
-  { title: "October 2023 Review", slug: "2023-10-30", date: "2023-10-30", description: "Monthly review of October 2023" },
-  { title: "Focusing on lifestyles over goals", slug: "2023-10-23", date: "2023-10-23", description: "Turning 19, feeling burnt out, shifting focus from goals to lifestyle" },
-  { title: "Slowing down my life this October", slug: "2023-10-03", date: "2023-10-03", description: "Realizing I need to slow down and stop treating others' progress as competition" },
-  { title: "September 2023 Review", slug: "2023-10-01", date: "2023-10-01", description: "Monthly review of September 2023" },
-  { title: "Intentional Education vs Passive Education", slug: "2023-09-28", date: "2023-09-28", description: "Switching from passive classroom learning to intentional self-driven education" },
-  { title: "Roadmap to finding your startups first customers as a tech person", slug: "2023-09-25", date: "2023-09-25", description: "A guide for tech founders on talking to customers and getting first users" },
-  { title: "How much I spent on my Japan Trip in August 2023", slug: "2023-09-18", date: "2023-09-18", description: "Breakdown of pre-travel, hotel, shopping, and food expenses in Japan" },
-  { title: "Embracing Vulnerability", slug: "2023-09-14", date: "2023-09-14", description: "On vulnerability as the core of meaningful human experiences" },
-  { title: "What is actually driving you to do things?", slug: "2023-09-11", date: "2023-09-11", description: "Reflecting on goals, motivations, and the identities tied to them" },
-  { title: "Why I Travel", slug: "2023-09-09", date: "2023-09-09", description: "Experiences and reflections from my trip to Japan and how it changed me" },
-  { title: "A Promise to My Friend", slug: "2023-09-08", date: "2023-09-08", description: "An inside look at my friend's startup journey with Pear" },
+  {
+    title: "Back to creating",
+    slug: "2026-03-02",
+    date: "2026-03-02",
+    description:
+      "Returning to blogging after two years, reflecting on graduating and the road ahead",
+  },
+  {
+    title: "A humbling experience with my car broken down",
+    slug: "2024-06-30",
+    date: "2024-06-30",
+    description:
+      "Car broke down at night on a scenic drive, a humbling and stressful experience",
+  },
+  {
+    title: "Postgres Snippets",
+    slug: "2024-06-12",
+    date: "2024-06-12",
+    description: "Useful Postgres SQL snippets I learned",
+  },
+  {
+    title: "Recreating Google Gemini Loading Animation in CSS & Tailwind",
+    slug: "2024-06-06",
+    date: "2024-06-06",
+    description:
+      "How to recreate the Gemini loading effect in Tailwind and CSS",
+  },
+  {
+    title: "Some things I learn living on my own",
+    slug: "2024-05-26",
+    date: "2024-05-26",
+    description: "Tips and thoughts for those moving out on their own",
+  },
+  {
+    title: "2024 Blog Refresh v3",
+    slug: "2024-05-22",
+    date: "2024-05-22",
+    description: "Revamping my blog with Astro, focused on simplicity",
+  },
+  {
+    title: "A letter of regrets from my future self",
+    slug: "2023-11-13",
+    date: "2023-11-13",
+    description:
+      "A reflective letter about being present and not waiting for the future",
+  },
+  {
+    title: "October 2023 Review",
+    slug: "2023-10-30",
+    date: "2023-10-30",
+    description: "Monthly review of October 2023",
+  },
+  {
+    title: "Focusing on lifestyles over goals",
+    slug: "2023-10-23",
+    date: "2023-10-23",
+    description:
+      "Turning 19, feeling burnt out, shifting focus from goals to lifestyle",
+  },
+  {
+    title: "Slowing down my life this October",
+    slug: "2023-10-03",
+    date: "2023-10-03",
+    description:
+      "Realizing I need to slow down and stop treating others' progress as competition",
+  },
+  {
+    title: "September 2023 Review",
+    slug: "2023-10-01",
+    date: "2023-10-01",
+    description: "Monthly review of September 2023",
+  },
+  {
+    title: "Intentional Education vs Passive Education",
+    slug: "2023-09-28",
+    date: "2023-09-28",
+    description:
+      "Switching from passive classroom learning to intentional self-driven education",
+  },
+  {
+    title: "Roadmap to finding your startups first customers as a tech person",
+    slug: "2023-09-25",
+    date: "2023-09-25",
+    description:
+      "A guide for tech founders on talking to customers and getting first users",
+  },
+  {
+    title: "How much I spent on my Japan Trip in August 2023",
+    slug: "2023-09-18",
+    date: "2023-09-18",
+    description:
+      "Breakdown of pre-travel, hotel, shopping, and food expenses in Japan",
+  },
+  {
+    title: "Embracing Vulnerability",
+    slug: "2023-09-14",
+    date: "2023-09-14",
+    description: "On vulnerability as the core of meaningful human experiences",
+  },
+  {
+    title: "What is actually driving you to do things?",
+    slug: "2023-09-11",
+    date: "2023-09-11",
+    description:
+      "Reflecting on goals, motivations, and the identities tied to them",
+  },
+  {
+    title: "Why I Travel",
+    slug: "2023-09-09",
+    date: "2023-09-09",
+    description:
+      "Experiences and reflections from my trip to Japan and how it changed me",
+  },
+  {
+    title: "A Promise to My Friend",
+    slug: "2023-09-08",
+    date: "2023-09-08",
+    description: "An inside look at my friend's startup journey with Pear",
+  },
 ];
 
 // ─── Work Index (for AI context) ───
 
 export const workIndex = [
-  { title: "Bluon AI MasterMechanic", slug: "bluon", description: "Agentic AI for HVAC technicians. Built RAG chatbot, tool-calling, streaming, and database architecture for 200k+ chats." },
-  { title: "Moonwish Studios", slug: "moonwish", description: "Co-founded web dev studio. Shipped 8 production websites for local businesses, $5k+ revenue." },
+  {
+    title: "Bluon AI MasterMechanic",
+    slug: "bluon",
+    description:
+      "Agentic AI for HVAC technicians. Built RAG chatbot, tool-calling, streaming, and database architecture for 200k+ chats.",
+  },
+  {
+    title: "Moonwish Studios",
+    slug: "moonwish",
+    description:
+      "Co-founded web dev studio. Shipped 8 production websites for local businesses, $5k+ revenue.",
+  },
 ];
 
 // ─── Nav Links ───
@@ -236,6 +347,7 @@ export const aiSystemPrompt = `You are Weibo Zhang's personal AI on his portfoli
 Who I Am:
 - B.S. Computer Science at Cal State Long Beach (Aug 2022 – May 2026).
 - Studied abroad at Ritsumeikan University in Kyoto, Japan (Mar 2025 – Aug 2025).
+- I was born in October 11, 2004 and I am currently 21 years old.
 - Coursework: Data Structures & Algorithms, Databases, Operating Systems, Distributed Systems, Software Engineering.
 - Work at Bluon as a Software Developer (promoted from intern). Been here since June 2023.
 - Started coding in 2020, learned through projects not school.
@@ -395,10 +507,10 @@ Random Facts & Quirks:
 \n\nYou have a full index of my blog posts and work case studies below. Use this to answer questions about what I've written or worked on WITHOUT needing a tool call.
 
 Blog Posts:
-${blogIndex.map(b => `- "${b.title}" (${b.date}) — ${b.description} [/blog/${b.slug}]`).join("\n")}
+${blogIndex.map((b) => `- "${b.title}" (${b.date}) — ${b.description} [/blog/${b.slug}]`).join("\n")}
 
 Work Case Studies:
-${workIndex.map(w => `- "${w.title}" — ${w.description} [/work/${w.slug}]`).join("\n")}
+${workIndex.map((w) => `- "${w.title}" — ${w.description} [/work/${w.slug}]`).join("\n")}
 
 You have tools to read the FULL content of a blog post or work page when needed:
 - Use readBlogPost when the user asks about the details of a specific blog post.
