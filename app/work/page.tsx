@@ -9,7 +9,7 @@ export default function WorkPage() {
         Work
       </h2>
       {/* Featured Work */}
-      <div className="flex flex-col md:flex-row flex-wrap gap-6 mb-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
         {workShowcases.map((work) => (
           <ShowcaseCard
             key={work.title}
@@ -17,8 +17,6 @@ export default function WorkPage() {
             subtitle={work.subtitle}
             image={work.image}
             href={work.href}
-            badge="Work"
-            className="max-w-xl"
           />
         ))}
       </div>
@@ -27,7 +25,7 @@ export default function WorkPage() {
       <h2 className="bg-sky-100 text-sky-500 dark:bg-sky-950 dark:text-sky-400 p-1 rounded-lg font-extrabold text-3xl w-fit mb-4">
         Projects
       </h2>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex  flex-wrap gap-4">
         {projects.map((project) => (
           <ShowcaseCard
             key={project.title}
@@ -36,7 +34,7 @@ export default function WorkPage() {
             tags={project.tags}
             href={project.href}
             external
-            className="h-66 w-full md:w-72"
+            className="h-66 sm:w-72 "
           />
         ))}
       </div>

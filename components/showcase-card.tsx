@@ -21,8 +21,6 @@ export function ShowcaseCard({
   description,
   subtitle,
   date,
-  badge,
-  badgeClassName,
   image,
   tags,
   href,
@@ -32,26 +30,12 @@ export function ShowcaseCard({
   const content = (
     <div
       className={cn(
-        "group flex flex-col bg-muted rounded-2xl p-5 hover:bg-muted/70 transition-colors duration-200 overflow-hidden",
-        className,
+        "group flex flex-col grow h-full bg-muted rounded-2xl p-5 hover:bg-muted/70 transition-colors duration-200 overflow-hidden",
+        !href && className,
       )}
     >
-      {/* Badge + Title row */}
-      {badge ? (
-        <div className="flex md:flex-row flex-col items-start md:items-center gap-2 mb-1">
-          <span
-            className={cn(
-              "bg-blue-600 text-white text-xs font-bold px-2 py-0.5 rounded-md",
-              badgeClassName,
-            )}
-          >
-            {badge}
-          </span>
-          <h3 className="text-lg md:text-xl font-extrabold text-foreground tracking-tight">
-            {title}
-          </h3>
-        </div>
-      ) : (
+      {/* Title */}
+      {title && (
         <h3 className="text-2xl font-semibold text-foreground group-hover:text-foreground">
           {title}
         </h3>
@@ -73,7 +57,7 @@ export function ShowcaseCard({
 
       {/* Image */}
       {image && (
-        <div className="rounded-xl overflow-hidden border border-border mt-auto">
+        <div className="rounded-xl overflow-hidden  mt-auto">
           <Image
             src={image}
             alt={`${title} screenshot`}
@@ -111,13 +95,22 @@ export function ShowcaseCard({
 
   if (external) {
     return (
-      <Link href={href} target="_blank" rel="noopener noreferrer">
+      <Link
+        className={cn("grow flex flex-col", className)}
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {content}
       </Link>
     );
   }
 
-  return <Link href={href}>{content}</Link>;
+  return (
+    <Link className={cn("grow flex flex-col", className)} href={href}>
+      {content}
+    </Link>
+  );
 }
 
 export function ShowcaseGrid({

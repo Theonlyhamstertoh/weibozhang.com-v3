@@ -25,14 +25,14 @@ export default function BlogPage() {
             <h2 className="bg-sky-100 text-sky-400 dark:bg-sky-950 dark:text-sky-600 p-1 rounded-lg font-extrabold text-3xl w-fit">
               {year}
             </h2>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex  flex-wrap gap-4">
               {postsByYear[year].map((post) => (
                 <ShowcaseCard
                   key={post.slug}
                   title={post.title}
                   date={new Date(post.date).toLocaleDateString()}
                   href={`/blog/${post.slug}`}
-                  className="h-66 w-full md:w-72"
+                  className="h-66  w-full md:w-72"
                 />
               ))}
             </div>
