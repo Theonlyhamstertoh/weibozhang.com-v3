@@ -1,11 +1,5 @@
-import { FolderIcon } from "@/components/icons";
 import { ShowcaseCard } from "@/components/showcase-card";
 import { getAllPosts } from "@/lib/blog";
-import {
-  FolderOffSolid,
-  FolderSolid,
-  FolderTwoSolid,
-} from "@mynaui/icons-react";
 
 export default function BlogPage() {
   const posts = getAllPosts();

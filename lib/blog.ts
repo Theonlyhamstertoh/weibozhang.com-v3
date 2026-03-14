@@ -6,7 +6,6 @@ const BLOG_DIR = path.join(process.cwd(), "contents/blog");
 
 export interface BlogPost {
   slug: string;
-  fileName: string;
   title: string;
   date: string;
   description?: string;
@@ -20,13 +19,8 @@ export function getAllPosts(): BlogPost[] {
     .map((file) => {
       const source = fs.readFileSync(path.join(BLOG_DIR, file), "utf-8");
       const { data } = matter(source);
-      const slug = data.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)/g, "");
       return {
-        slug,
-        fileName: file.replace(".mdx", ""),
+        slug: file.replace(".mdx", ""),
         title: data.title,
         date: data.date,
         description: data.description,

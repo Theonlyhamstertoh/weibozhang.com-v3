@@ -56,7 +56,6 @@ export function CurlyArrow(props: SVGProps<SVGSVGElement>) {
     </svg>
   );
 }
-
 export function LinkedinIcon(props: SVGProps<SVGSVGElement>) {
   return (
     <svg

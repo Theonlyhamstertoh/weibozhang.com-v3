@@ -193,6 +193,13 @@ export const projects = [
 
 export const blogIndex = [
   {
+    title: "You know what, I think you should go big",
+    slug: "2026-03-14",
+    date: "2026-03-14",
+    description:
+      "I think you should lighten the flame of your soul, as bright and colorful as the fireworks in the sky, for as long as the time you have to be alive, to be truly you.",
+  },
+  {
     title: "Back to creating",
     slug: "2026-03-02",
     date: "2026-03-02",

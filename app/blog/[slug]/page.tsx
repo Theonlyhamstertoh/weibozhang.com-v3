@@ -24,7 +24,7 @@ export default async function Page({
   const filePath = path.join(
     process.cwd(),
     "contents/blog",
-    `${post.fileName}.mdx`
+    `${post.slug}.mdx`
   );
   const source = fs.readFileSync(filePath, "utf-8");
 
