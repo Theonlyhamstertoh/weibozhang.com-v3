@@ -38,7 +38,6 @@ export const profile = {
 } as const;
 
 // ─── Social Links ───
-
 export const socialLinks: SocialLink[] = [
   {
     label: "weibozhang",
