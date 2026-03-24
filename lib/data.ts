@@ -192,6 +192,12 @@ export const projects = [
 
 export const blogIndex = [
   {
+    title: "A notebook idea for the travellers",
+    date: "2025-03-24",
+    slug: "2025-03-24",
+    description: "How cool would it be if you kept a notebook while travelling, and for each stranger you meet and get to know, they write down the story of their life on one of those pages? Or it can be their life advice, a drawing, whatever. You gave them the freedom to create. And by the end of that trip, you have a notebook full of real human stories"
+  }
+  {
     title: "You know what, I think you should go big",
     slug: "2026-03-14",
     date: "2026-03-14",
