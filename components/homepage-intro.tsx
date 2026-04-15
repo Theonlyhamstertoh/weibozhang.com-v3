@@ -34,13 +34,13 @@ export const Intro = () => {
   return (
     <div className="mt-10 md:mt-30  ">
       <div className="flex flex-col md:flex-row items-center mb-10  gap-4 max-w-2xl w-fit md:items-start">
-        <Image
+        {/*<Image
           src="/avatar.png"
           width="120"
           height="120"
           alt="Weibo Avatar"
           className="h-max"
-        />
+        />*/}
         <div className="flex text-2xl md:text-3xl text-center md:text-start flex-col w-fit gap-3">
           <h1 className=" font-extrabold">Hello! I&apos;m Weibo</h1>
           <p className=" text-muted-foreground text-pretty max-w-lg font-medium">
