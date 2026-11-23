@@ -7,8 +7,7 @@ export const Footer = () => {
   return (
     <div className="flex  w-full relative  pt-3 pb-4">
       <span className="text-center grow text-muted-foreground">
-        Built by
-        <strong className="text-foreground/70"> Weibo Zhang</strong>
+        Thanks for stopping by
       </span>
 
       {pathname == "/" && (

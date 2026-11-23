@@ -33,9 +33,8 @@ const caveat = Caveat({
 });
 
 export const metadata: Metadata = {
-  title: "Weibo Zhang",
-  description:
-    "Hello! I'm Weibo\nI'm a builder who turns messy ideas into products & software.",
+  title: "Portfolio",
+  description: "Notes, projects, and an AI you can chat with.",
 };
 
 export default function RootLayout({

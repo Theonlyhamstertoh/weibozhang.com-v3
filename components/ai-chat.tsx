@@ -18,7 +18,6 @@ import {
 } from "@mynaui/icons-react";
 import { DefaultChatTransport, UIMessage } from "ai";
 import { AnimatePresence, motion } from "motion/react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
@@ -166,15 +165,14 @@ function AssistantParts({
   return (
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-3">
-        <Image
-          src="/avatar.png"
-          width={40}
-          height={40}
-          alt="Weibo Avatar"
-          className="rounded-full"
-        />
+        <span
+          aria-hidden="true"
+          className="flex size-10 items-center justify-center rounded-full bg-muted text-muted-foreground"
+        >
+          <Star className="size-5" />
+        </span>
         <span className="text-muted-foreground font-semibold text-lg">
-          Weibo
+          AI
         </span>
       </div>
 
@@ -480,21 +478,17 @@ function InitialThinkingIndicator({
 
 const AIIntro = () => (
   <div className="flex flex-col mx-auto font-sans mt-10 gap-4 max-w-md w-fit items-center justify-center">
-    <Image
-      src="/avatar.png"
-      width="120"
-      height="120"
-      alt="Weibo Avatar"
-      className="h-max"
-    />
+    <span
+      aria-hidden="true"
+      className="flex size-24 items-center justify-center rounded-full bg-muted text-muted-foreground"
+    >
+      <Star className="size-12" />
+    </span>
     <div className="flex text-center flex-col w-fit gap-3">
-      <h1 className="text-3xl font-extrabold">Hello! I&apos;m Weibo</h1>
+      <h1 className="text-3xl font-extrabold">Hello!</h1>
       <p className="text-3xl text-muted-foreground text-pretty max-w-lg font-medium">
-        I train this AI on everything about me. Ask me anything
+        Ask me anything
       </p>
-      <span className="text-muted-foreground italic">
-        Email me if you find a bug and I&apos;ll buy you coffee :)
-      </span>
     </div>
   </div>
 );

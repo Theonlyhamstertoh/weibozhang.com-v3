@@ -9,7 +9,6 @@ const links = [
   { href: "/ai", label: "AI" },
   { href: "/blog", label: "Blogs" },
   { href: "/now", label: "Now" },
-  { href: "/weibo-zhang-resume.pdf", label: "Resume" },
 ];
 
 export function Navbar() {
@@ -33,7 +32,7 @@ export function Navbar() {
   return (
     <header className="flex  flex-wrap items-center justify-between w-full p-5">
       <Link href="/" className="font-weibo text-2xl">
-        Weibo
+        Home
       </Link>
 
       {/* Desktop nav */}
